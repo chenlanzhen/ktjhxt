@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="../css/admin_stu.css">
+</head>
+<body>
+	<section>
+		<form>
+			<table>
+				<caption>登陆信息汇总</caption>
+				<thead>
+					<tr>
+						<th>编号</th>
+						<th>姓名</th>
+						<th>类型</th>
+						<th>密码</th>
+						<th colspan="3">操作</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</form>
+	</section>
+	<div id="newUserPanel">
+		<form>
+			<ul>
+				<li>编号：<input type="text" id="uno" name=""></li>
+				<li>姓名：<input type="text" id="uname" name=""></li>
+				<li>类型：<input type="text" id="utype" name=""></li>
+				<li>密码：<input type="text" id="upsw" name=""></li>
+				<li>
+					<button type="button" id="saveNewUser">保存</button>
+					<button type="button" id="closeNew">取消</button>
+				</li>
+			</ul>
+		</form>
+	</div>
+	<div id="updateUserPanel">
+		<form>
+			<ul>
+				<li>编号：<input type="text" id="upuno" name="" disabled="yes"></li>
+				<li>姓名：<input type="text" id="upuname" name=""></li>
+				<li>类型：<input type="text" id="uputype" name=""></li>
+				<li>密码：<input type="text" id="upupsw" name=""></li>
+				<li>
+					<button type="button" id="updateUser">保存</button>
+					<button type="button" id="closeUpdate">取消</button>
+				</li>
+			</ul>
+		</form>
+	</div>
+</body>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/admin.js"></script>
+<script type="text/javascript">
+	$("#newUserPanel").hide();
+	$("#updateUserPanel").hide();
+	function newUser(obj){
+		$("#newUserPanel").show();
+	}
+	$("#closeNew").click(function(){
+		$("#newUserPanel").hide();
+	});
+	$("#closeUpdate").click(function(){
+		$("#updateUserPanel").hide();
+	});
+	$("#saveNewUser").click(function(){
+		var uno = encodeURIComponent($("#uno").val());
+		var uname = encodeURIComponent($("#uname").val());
+		var utype = encodeURIComponent($("#utype").val());
+		var upsw = encodeURIComponent($("#upsw").val());
+		var xhr = getXMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				location.href = "admin_login.html";
+			}
+		}
+		xhr.open("post","http://localhost/ktjhxt/php/admin_add_user.php",true);
+		xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+		xhr.send("uno="+uno+"&uname="+uname+"&utype="+utype+"&upsw="+upsw);
+	});
+	function deleteUser(obj){
+		var deleteKey = encodeURIComponent($("tr:eq("+obj+")").children()[0].textContent);
+		var xhr = getXMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				location.href = "admin_login.html";
+				// console.log(xhr.responseText);
+			}
+		}
+		xhr.open("post","http://localhost/ktjhxt/php/admin_delete_user.php",true);
+		xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+		xhr.send("deleteKey="+deleteKey);
+	}
+	function resetPsw(obj){
+		var resetKey = encodeURIComponent($("tr:eq("+obj+")").children()[0].textContent);
+		
+		var xhr = getXMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				location.href = "admin_login.html";
+				// console.log(xhr.responseText);
+			}
+		}
+		xhr.open("post","http://localhost/ktjhxt/php/admin_reset_user.php",true);
+		xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+		xhr.send("resetKey="+resetKey);console.log(resetKey);
+	}
+	function updateUser(obj){
+		$("#updateUserPanel").show();
+		$("#upuno").val($("tr:eq("+obj+")").children()[0].textContent);
+		$("#upuname").val($("tr:eq("+obj+")").children()[1].textContent);
+		$("#uputype").val($("tr:eq("+obj+")").children()[2].textContent);
+		$("#upupsw").val($("tr:eq("+obj+")").children()[3].textContent);
+	}
+
+	$("#updateUser").click(function(){
+		var upuno = encodeURIComponent($("#upuno").val());
+		var upuname = encodeURIComponent($("#upuname").val());
+		var uputype = encodeURIComponent($("#uputype").val());
+		var upupsw = encodeURIComponent($("#upupsw").val());
+		var xhr = getXMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				location.href = "admin_login.html";
+				// console.log(xhr.responseText);
+			}
+		}
+		xhr.open("post","http://localhost/ktjhxt/php/admin_update_user.php",true);
+		xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+		xhr.send("upsno="+upsno+"&upsname="+upsname+"&upsage="+upsage+"&upssex="+upssex+"&upsclass="+upsclass);
+	});
+</script>
+
+
+
+<script type="text/javascript">
+	function getXMLHttpRequest(){
+		if (window.XMLHttpRequest) {
+			return new XMLHttpRequest();
+		}else{
+			return new AtiveXObject("Microsoft.XMLHTTP");
+		}
+	}
+	var xhr = getXMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			var jsonObj = JSON.parse(xhr.responseText);
+			var dataArr = jsonObj.userJSON;
+			for (var i = 0; i < dataArr.length; i++) {
+				var htmlText = $("tbody").html();
+				htmlText = htmlText+"<tr><td>"+dataArr[i].id+"</td><td>"+dataArr[i].username+"</td><td>"+dataArr[i].usertype+"</td><td>"+dataArr[i].psw+"</td><td><a href='javascript:deleteUser("+(i+1)+");'>删除</a></td><td><a href='javascript:updateUser("+(i+1)+");'>修改</a></td><td><a href='javascript:resetPsw("+(i+1)+");'>重置密码</a></td></tr>"
+				$("tbody").html(htmlText);
+			}
+			var tr = document.createElement("tr");
+			$(tr).html("<td><a href='javascript:newUser();'>新增</a></td>");
+			$("tbody").append(tr);
+		}
+	}
+	xhr.open("get","http://localhost/ktjhxt/php/getUserData.php",true);
+	xhr.send(null);
+</script>
+</html>

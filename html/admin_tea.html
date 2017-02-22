@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="../css/admin_stu.css">
+</head>
+<body>
+	<section>
+		<form>
+			<table>
+				<caption>教师信息汇总</caption>
+				<thead>
+					<tr>
+						<th>工号</th>
+						<th>姓名</th>
+						<th>年龄</th>
+						<th>性别</th>
+						<th>学院</th>
+						<th colspan="2">操作</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</form>
+	</section>
+	<div id="newTeaPanel">
+		<form>
+			<ul>
+				<li>工号：<input type="text" id="tno" name=""></li>
+				<li>姓名：<input type="text" id="tname" name=""></li>
+				<li>年龄：<input type="text" id="tage" name=""></li>
+				<li>性别：<input type="text" id="tsex" name=""></li>
+				<li>学院：<input type="text" id="tinstitute" name=""></li>
+				<li>
+					<button type="button" id="saveNewTea">保存</button>
+					<button type="button" id="closeNew">取消</button>
+				</li>
+			</ul>
+		</form>
+	</div>
+	<div id="updateTeaPanel">
+		<form>
+			<ul>
+				<li>工号：<input type="text" id="uptno" name="" disabled="yes"></li>
+				<li>姓名：<input type="text" id="uptname" name=""></li>
+				<li>年龄：<input type="text" id="uptage" name=""></li>
+				<li>性别：<input type="text" id="uptsex" name=""></li>
+				<li>学院：<input type="text" id="uptinstitute" name=""></li>
+				<li>
+					<button type="button" id="updateTea">保存</button>
+					<button type="button" id="closeUpdate">取消</button>
+				</li>
+			</ul>
+		</form>
+	</div>
+</body>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/admin.js"></script>
+<script type="text/javascript">
+	$("#newTeaPanel").hide();
+	$("#updateTeaPanel").hide();
+	function newTea(obj){
+		$("#newTeaPanel").show();
+	}
+	$("#closeNew").click(function(){
+		$("#newTeaPanel").hide();
+	});
+	$("#closeUpdate").click(function(){
+		$("#updateTeaPanel").hide();
+	});
+	$("#saveNewTea").click(function(){
+		var tno = encodeURIComponent($("#tno").val());
+		var tname = encodeURIComponent($("#tname").val());
+		var tage = encodeURIComponent($("#tage").val());
+		var tsex = encodeURIComponent($("#tsex").val());
+		var tinstitute = encodeURIComponent($("#tinstitute").val());
+		var xhr = getXMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				location.href = "admin_tea.html";
+			}
+		}
+		xhr.open("post","http://localhost/ktjhxt/php/admin_add_tea.php",true);
+		xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+		xhr.send("tno="+tno+"&tname="+tname+"&tage="+tage+"&tsex="+tsex+"&tinstitute="+tinstitute);
+	});
+	function deleteTea(obj){
+		var deleteKey = encodeURIComponent($("tr:eq("+obj+")").children()[0].textContent);
+		var xhr = getXMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				location.href = "admin_tea.html";
+				// console.log(xhr.responseText);
+			}
+		}
+		xhr.open("post","http://localhost/ktjhxt/php/admin_delete_tea.php",true);
+		xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+		xhr.send("deleteKey="+deleteKey);
+	}
+	function updateTea(obj){
+		$("#updateTeaPanel").show();
+		$("#uptno").val($("tr:eq("+obj+")").children()[0].textContent);
+		$("#uptname").val($("tr:eq("+obj+")").children()[1].textContent);
+		$("#uptage").val($("tr:eq("+obj+")").children()[2].textContent);
+		$("#uptsex").val($("tr:eq("+obj+")").children()[3].textContent);
+		$("#uptinstitute").val($("tr:eq("+obj+")").children()[4].textContent);
+	}
+	$("#updateTea").click(function(){
+		var uptno = encodeURIComponent($("#uptno").val());
+		var uptname = encodeURIComponent($("#uptname").val());
+		var uptage = encodeURIComponent($("#uptage").val());
+		var uptsex = encodeURIComponent($("#uptsex").val());
+		var uptinstitute = encodeURIComponent($("#uptinstitute").val());
+		var xhr = getXMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				location.href = "admin_tea.html";
+				// console.log(xhr.responseText);
+			}
+		}
+		xhr.open("post","http://localhost/ktjhxt/php/admin_update_tea.php",true);
+		xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+		xhr.send("uptno="+uptno+"&uptname="+uptname+"&uptage="+uptage+"&uptsex="+uptsex+"&uptinstitute="+uptinstitute);
+	});
+</script>
+
+
+
+<script type="text/javascript">
+	function getXMLHttpRequest(){
+		if (window.XMLHttpRequest) {
+			return new XMLHttpRequest();
+		}else{
+			return new AtiveXObject("Microsoft.XMLHTTP");
+		}
+	}
+	var xhr = getXMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			var jsonObj = JSON.parse(xhr.responseText);
+			var dataArr = jsonObj.teaJSON;
+			for (var i = 0; i < dataArr.length; i++) {
+				var htmlText = $("tbody").html();
+				htmlText = htmlText+"<tr><td>"+dataArr[i].tno+"</td><td>"+dataArr[i].sname+"</td><td>"+dataArr[i].tage+"</td><td>"+dataArr[i].tsex+"</td><td>"+dataArr[i].tinstitute+"</td><td><a href='javascript:deleteStu("+(i+1)+");'>删除</a></td><td><a href='javascript:updateStu("+(i+1)+");'>修改</a></td></tr>"
+				$("tbody").html(htmlText);
+			}
+			var tr = document.createElement("tr");
+			$(tr).html("<td><a href='javascript:newTea();'>新增</a></td>");
+			$("tbody").append(tr);
+		}
+	}
+	xhr.open("get","http://localhost/ktjhxt/php/getTeaData.php",true);
+	xhr.send(null);
+</script>
+</html>

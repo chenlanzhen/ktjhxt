@@ -1,0 +1,55 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+section{
+	background: url(../images/admin_stu.jpg) no-repeat;
+	background-size: 100% 100%;
+}
+section form{
+	/*width: 40em;
+	height: 24em;*/
+	
+	position: relative;
+	top: 5%;
+	/*border: 1px solid ;*/
+}
+table{
+	margin: 0 auto;
+	width: 40em;
+	/*height: 20em;*/
+	border: 1px solid ;
+	border-collapse: collapse;
+}
+table thead,table tbody{
+	/*background: #00CED1;*/
+}
+table th{
+	border: 1px solid;
+}
+table td{
+	font-size: 1em;
+	text-align: center;
+	border: 1px solid;
+}
+caption{
+	font-size: 3em;
+
+}
+#newStuPanel,#updateStuPanel{
+			position: absolute;
+			width: 400px;
+			height: 400px;
+			left: 50%;
+			top: 50%;
+			margin-left: -200px;
+			margin-top: -200px;
+			background-color: rgba(255,255,255,1);
+		}
+		ul{
+			margin-top: 40px;
+		}
+		li{
+			list-style: none;
+			padding: 5px 10px 5px 10px;
+		}

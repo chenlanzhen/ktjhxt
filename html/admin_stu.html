@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="../css/admin_stu.css">
+</head>
+<body>
+	<section>
+		<form>
+			<table>
+				<caption>学生信息汇总</caption>
+				<thead>
+					<tr>
+						<th>学号</th>
+						<th>姓名</th>
+						<th>年龄</th>
+						<th>性别</th>
+						<th>班级</th>
+						<th colspan="2">操作</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</form>
+	</section>
+	<div id="newStuPanel">
+		<form>
+			<ul>
+				<li>学号：<input type="text" id="sno" name=""></li>
+				<li>姓名：<input type="text" id="sname" name=""></li>
+				<li>年龄：<input type="text" id="sage" name=""></li>
+				<li>性别：<input type="text" id="ssex" name=""></li>
+				<li>班级：<input type="text" id="sclass" name=""></li>
+				<li>
+					<button type="button" id="saveNewStu">保存</button>
+					<button type="button" id="closeNew">取消</button>
+				</li>
+			</ul>
+		</form>
+	</div>
+	<div id="updateStuPanel">
+		<form>
+			<ul>
+				<li>学号：<input type="text" id="upsno" name="" disabled="yes"></li>
+				<li>姓名：<input type="text" id="upsname" name=""></li>
+				<li>年龄：<input type="text" id="upsage" name=""></li>
+				<li>性别：<input type="text" id="upssex" name=""></li>
+				<li>班级：<input type="text" id="upsclass" name=""></li>
+				<li>
+					<button type="button" id="updateStu">保存</button>
+					<button type="button" id="closeUpdate">取消</button>
+				</li>
+			</ul>
+		</form>
+	</div>
+</body>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
+<script type="text/javascript" src="../js/admin.js"></script>
+<script type="text/javascript">
+	$("#newStuPanel").hide();
+	$("#updateStuPanel").hide();
+	function newStu(obj){
+		$("#newStuPanel").show();
+	}
+	$("#closeNew").click(function(){
+		$("#newStuPanel").hide();
+	});
+	$("#closeUpdate").click(function(){
+		$("#updateStuPanel").hide();
+	});
+	$("#saveNewStu").click(function(){
+		var sno = encodeURIComponent($("#sno").val());
+		var sname = encodeURIComponent($("#sname").val());
+		var sage = encodeURIComponent($("#sage").val());
+		var ssex = encodeURIComponent($("#ssex").val());
+		var sclass = encodeURIComponent($("#sclass").val());
+		var xhr = getXMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				location.href = "admin_stu.html";
+			}
+		}
+		xhr.open("post","http://localhost/ktjhxt/php/admin_add_stu.php",true);
+		xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+		xhr.send("sno="+sno+"&sname="+sname+"&sage="+sage+"&ssex="+ssex+"&sclass="+sclass);
+	});
+	function deleteStu(obj){
+		var deleteKey = encodeURIComponent($("tr:eq("+obj+")").children()[0].textContent);
+		var xhr = getXMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				location.href = "admin_stu.html";
+			}
+		}
+		xhr.open("post","http://localhost/ktjhxt/php/admin_delete_stu.php",true);
+		xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+		xhr.send("deleteKey="+deleteKey);
+	}
+	function updateStu(obj){
+		$("#updateStuPanel").show();
+		$("#upsno").val($("tr:eq("+obj+")").children()[0].textContent);
+		$("#upsname").val($("tr:eq("+obj+")").children()[1].textContent);
+		$("#upsage").val($("tr:eq("+obj+")").children()[2].textContent);
+		$("#upssex").val($("tr:eq("+obj+")").children()[3].textContent);
+		$("#upsclass").val($("tr:eq("+obj+")").children()[4].textContent);
+	}
+	$("#updateStu").click(function(){
+		var upsno = encodeURIComponent($("#upsno").val());
+		var upsname = encodeURIComponent($("#upsname").val());
+		var upsage = encodeURIComponent($("#upsage").val());
+		var upssex = encodeURIComponent($("#upssex").val());
+		var upsclass = encodeURIComponent($("#upsclass").val());
+		var xhr = getXMLHttpRequest();
+		xhr.onreadystatechange = function(){
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				location.href = "admin_stu.html";
+				// console.log(xhr.responseText);
+			}
+		}
+		xhr.open("post","http://localhost/ktjhxt/php/admin_update_stu.php",true);
+		xhr.setRequestHeader("content-type","application/x-www-form-urlencoded");
+		xhr.send("upsno="+upsno+"&upsname="+upsname+"&upsage="+upsage+"&upssex="+upssex+"&upsclass="+upsclass);
+	});
+</script>
+
+
+
+<script type="text/javascript">
+	function getXMLHttpRequest(){
+		if (window.XMLHttpRequest) {
+			return new XMLHttpRequest();
+		}else{
+			return new AtiveXObject("Microsoft.XMLHTTP");
+		}
+	}
+	var xhr = getXMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			var jsonObj = JSON.parse(xhr.responseText);
+			var dataArr = jsonObj.stuJSON;
+			for (var i = 0; i < dataArr.length; i++) {
+				var htmlText = $("tbody").html();
+				htmlText = htmlText+"<tr><td>"+dataArr[i].sno+"</td><td>"+dataArr[i].sname+"</td><td>"+dataArr[i].sage+"</td><td>"+dataArr[i].ssex+"</td><td>"+dataArr[i].sclass+"</td><td><a href='javascript:deleteStu("+(i+1)+");'>删除</a></td><td><a href='javascript:updateStu("+(i+1)+");'>修改</a></td></tr>"
+				$("tbody").html(htmlText);
+			}
+			var tr = document.createElement("tr");
+			$(tr).html("<td><a href='javascript:newStu();'>新增</a></td>");
+			$("tbody").append(tr);
+		}
+	}
+	xhr.open("get","http://localhost/ktjhxt/php/getStuData.php",true);
+	xhr.send(null);
+</script>
+</html>

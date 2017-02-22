@@ -1,0 +1,40 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+section{
+	background: url(../images/admin_index.jpg) no-repeat;
+	background-size: 100% 100%;
+}
+section .center{
+	font-size: 34px;
+	line-height: 80px;
+}
+section form{
+	width: 40em;
+	height: 24em;
+	margin: 0 auto;
+	position: relative;
+	top: 20%;
+	/*border: 1px solid ;*/
+}
+table{
+	width: 40em;
+	height: 20em;
+	margin: 0 auto;
+	border: 1px solid ;
+	border-collapse: collapse;
+}
+table thead,table tbody{
+	background: #00CED1;
+}
+
+table td{
+	font-size: 2em;
+	text-align: center;
+	border: 1px solid;
+}
+caption{
+	font-size: 3em;
+
+}

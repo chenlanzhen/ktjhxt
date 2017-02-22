@@ -1,0 +1,66 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+section{
+	/*margin-top: 7%;*/
+	background: url(../images/login_bg.jpg) no-repeat;
+	background-size: 100% 100%;
+}
+form{
+	width: 40em;
+	height: 20em;
+	position: relative;
+	top: 4em;
+	border: 1px solid ;
+	margin-left: 45%;
+	text-align: center;
+}
+.title{
+	font-size: 3em;
+	letter-spacing: 1em;
+	font-family: "微软雅黑";
+}
+table{
+	width: 36em;
+	height: 12em;
+	margin: 0 auto;
+	border: 1px solid ;
+}
+table td{
+
+	border: 1px solid;
+}
+.td_left{
+	width: 14em;
+
+}
+.td_left span{
+	font-size: 1em;
+	font-weight: bold;
+	float: right;
+}
+.td_right input,.td_right select{
+	float: left;
+	width: 12em;
+	height: 2em;
+}
+.td_right select:hover{
+	cursor: pointer;
+}
+select{
+	padding: 0 2%;
+	margin: 0;
+}
+select option{
+	text-align: center;
+}
+#submit{
+	width: 10em;
+	height: 2em;
+	font-size: 1em;
+	background: rgb(155,255,47);
+}
+#submit:hover{
+	background: rgb(129,226,39);
+}

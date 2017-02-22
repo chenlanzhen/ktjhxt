@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>登陆页面</title>
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+</head>
+<body>
+	<section>			
+		<form>
+			<p class="title">课堂交互系统</p>
+			<table>
+				<tr>
+					<td class="td_left">
+						<span>用户名：</span>
+					</td>
+					<td class="td_right">
+						<input type="text" id="userid" name="userid">
+					</td>
+				</tr>
+				<tr>
+					<td class="td_left">
+						<span>密&nbsp;码：</span>
+					</td>
+					<td class="td_right">
+						<input type="text" id="pwd" name="pwd">
+					</td>
+				</tr>
+				<tr>
+					<td class="td_left">
+						<span>身&nbsp;份：</span>
+					</td>
+					<td class="td_right">
+						<select name="userType" id="userType">
+							<option>学生</option>
+							<option>教师</option>
+							<option>管理员</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2"><input type="button" id="submit" name="submit" value="登陆"></td>
+				</tr>
+			</table>
+		</form>
+	</section>
+	
+</body>
+</html>

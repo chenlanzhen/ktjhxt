@@ -5,5 +5,6 @@
 	if(!$conn){
 		die("连接数据库失败：".mysql_error());
 	}
+	// echo "mysql连接成功";
 	mysqli_select_db($conn,"userdata");
 ?> 
